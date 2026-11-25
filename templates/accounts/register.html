@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Create Account{% endblock %}
+
+{% block content %}
+<main class="relative mx-auto my-10 flex min-h-[540px] w-[95%] max-w-[1000px] items-start justify-start overflow-hidden border-t-[14px] border-[#cfcfcf] bg-black p-[30px] max-md:my-0 max-md:w-full max-md:flex-col max-md:items-stretch max-md:p-0">
+
+  <section class="absolute inset-0 max-md:relative max-md:h-60 max-md:shrink-0">
+    <img src="{% static 'images/ironman-register.png' %}" alt="Iron Man" class="h-full w-full bg-black object-contain object-right-top max-md:object-top">
+  </section>
+
+  <section class="relative w-full text-white max-md:p-5">
+    <h1 class="mb-5 font-serif text-[2.5rem] font-bold max-md:text-[2rem]">Create An Account</h1>
+
+    <form method="post" novalidate class="flex items-end gap-6 max-md:flex-col max-md:items-stretch">
+      {% csrf_token %}
+
+      <div class="w-full max-w-[460px] rounded-[10px] bg-[#111111] px-7 pb-4 pt-7 max-md:max-w-full">
+
+        <div class="mb-2.5">
+          <label for="id_full_name" class="mb-1.5 block text-[0.8rem] font-bold">Full Name</label>
+          <input type="text" name="full_name" id="id_full_name" value="{{ form.full_name.value|default:'' }}" placeholder="Enter your full name"
+            class="h-[42px] w-full rounded-md border-2 {% if form.full_name.errors %}border-red-500{% else %}border-white{% endif %} bg-white px-3 text-[#222222] focus:border-[#0000cc] focus:outline-none">
+          <small class="mt-1 block min-h-[14px] text-xs text-[#ff6b6b]">{{ form.full_name.errors|first }}</small>
+        </div>
+
+        <div class="mb-2.5">
+          <label for="id_email" class="mb-1.5 block text-[0.8rem] font-bold">Email Address</label>
+          <div class="relative">
+            <input type="email" name="email" id="id_email" value="{{ form.email.value|default:'' }}" placeholder="yourname@gmail.com"
+              class="h-[42px] w-full rounded-md border-2 {% if form.email.errors %}border-red-500{% else %}border-white{% endif %} bg-white px-3 text-[#222222] focus:border-[#0000cc] focus:outline-none">
+          </div>
+          <small class="mt-1 block min-h-[14px] text-xs text-[#ff6b6b]">{{ form.email.errors|first }}</small>
+        </div>
+
+        <div class="mb-2.5">
+          <label for="id_password" class="mb-1.5 block text-[0.8rem] font-bold">Password</label>
+          <div class="relative">
+            <input type="password" name="password" id="id_password" placeholder="Enter your password"
+              class="h-[42px] w-full rounded-md border-2 {% if form.password.errors %}border-red-500{% else %}border-white{% endif %} bg-white pl-3 pr-14 text-[#222222] focus:border-[#0000cc] focus:outline-none">
+            <button type="button" data-target="id_password" class="toggle-password absolute right-3 top-0 h-[42px] cursor-pointer text-xs font-bold text-[#555555]">Show</button>
+          </div>
+          <small class="mt-1 block min-h-[14px] text-xs text-[#ff6b6b]">{{ form.password.errors|first }}</small>
+        </div>
+
+        <div class="mb-2.5">
+          <label for="id_confirm_password" class="mb-1.5 block text-[0.8rem] font-bold">Confirm Password</label>
+          <div class="relative">
+            <input type="password" name="confirm_password" id="id_confirm_password" placeholder="Confirm your password"
+              class="h-[42px] w-full rounded-md border-2 {% if form.confirm_password.errors %}border-red-500{% else %}border-white{% endif %} bg-white pl-3 pr-14 text-[#222222] focus:border-[#0000cc] focus:outline-none">
+            <button type="button" data-target="id_confirm_password" class="toggle-password absolute right-3 top-0 h-[42px] cursor-pointer text-xs font-bold text-[#555555]">Show</button>
+          </div>
+          <small class="mt-1 block min-h-[14px] text-xs text-[#ff6b6b]">{{ form.confirm_password.errors|first }}</small>
+        </div>
+
+        <div class="mb-2.5">
+          <label class="mt-1.5 flex items-center gap-1.5 text-xs">
+            <input type="checkbox" name="terms" class="h-3.5 w-3.5" {% if form.terms.value %}checked{% endif %}>
+            <span>I agree to the <a href="#" class="text-[#1da1f2] underline">terms of service</a> and <a href="#" class="text-[#1da1f2] underline">privacy policy</a></span>
+          </label>
+          <small class="mt-1 block min-h-[14px] text-xs text-[#ff6b6b]">{{ form.terms.errors|first }}</small>
+        </div>
+
+      </div>
+
+      <div class="ml-auto w-[300px] max-md:ml-0 max-md:w-full">
+        <button type="submit" class="h-[52px] w-full rounded bg-[#0000cc] text-[1.1rem] text-white hover:bg-[#1a1aff]">Create Account</button>
+        <p class="mt-4 text-center text-sm">
+          Already have an account?
+          <a href="{% url 'login' %}" class="text-[#1da1f2] underline">Sign in Now</a>
+        </p>
+      </div>
+
+    </form>
+  </section>
+
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/toggle-password.js' %}"></script>
+{% endblock %}

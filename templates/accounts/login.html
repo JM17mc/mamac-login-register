@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<main class="relative mx-auto my-10 flex min-h-[540px] w-[95%] max-w-[1000px] items-center justify-end overflow-hidden bg-black p-[30px] max-md:my-0 max-md:w-full max-md:flex-col max-md:items-stretch max-md:justify-start max-md:p-0">
+
+  <section class="absolute inset-0 max-md:relative max-md:h-60 max-md:shrink-0">
+    <img src="{% static 'images/ironman-login.png' %}" alt="Iron Man" class="h-full w-full object-fill object-left">
+    <h1 class="absolute left-[22%] top-10 font-serif text-[5.5rem] font-bold leading-[1.05] text-white max-md:left-5 max-md:top-5 max-md:text-5xl">IRON<br>MAN</h1>
+  </section>
+
+  <section class="relative w-full max-w-[480px] rounded-[10px] bg-[#222222] px-9 py-10 text-white max-md:max-w-full max-md:rounded-none">
+    <h2 class="mb-6 text-[1.4rem] font-bold">WELCOME BACK!</h2>
+
+    {% if messages %}
+      {% for message in messages %}
+        <p class="mb-4 rounded bg-green-700 px-3 py-2 text-sm">{{ message }}</p>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <p class="mb-3 text-sm text-[#ff6b6b]">{{ form.non_field_errors|first }}</p>
+      {% endif %}
+
+      <div class="mb-4">
+        <label for="id_email" class="mb-1.5 block text-xs font-bold">Email Address</label>
+        <input type="email" name="email" id="id_email" value="{{ form.email.value|default:'' }}"
+          class="h-11 w-full rounded-md border-2 {% if form.email.errors %}border-red-500{% else %}border-white{% endif %} bg-white px-3 text-[#222222] focus:border-[#0000cc] focus:outline-none">
+        <small class="mt-1 block min-h-[14px] text-xs text-[#ff6b6b]">{{ form.email.errors|first }}</small>
+      </div>
+
+      <div class="mb-4">
+        <label for="id_password" class="mb-1.5 block text-xs font-bold">Password</label>
+        <input type="password" name="password" id="id_password"
+          class="h-11 w-full rounded-md border-2 {% if form.password.errors %}border-red-500{% else %}border-white{% endif %} bg-white px-3 text-[#222222] focus:border-[#0000cc] focus:outline-none">
+        <small class="mt-1 block min-h-[14px] text-xs text-[#ff6b6b]">{{ form.password.errors|first }}</small>
+      </div>
+
+      <div class="mb-4 flex justify-between text-xs">
+        <label class="flex items-center gap-1.5">
+          <input type="checkbox" name="remember" class="h-3.5 w-3.5">
+          Remember me
+        </label>
+        <a href="#" class="text-[#1da1f2] underline">Forgot Password?</a>
+      </div>
+
+      <button type="submit" class="h-[38px] w-full rounded bg-[#0000cc] text-white hover:bg-[#1a1aff]">Login</button>
+
+      <p class="mt-5 text-center text-xs">
+        Don't have an account?
+        <a href="{% url 'register' %}" class="text-[#1da1f2] underline">Create Account now</a>
+      </p>
+    </form>
+  </section>
+
+</main>
+{% endblock %}
